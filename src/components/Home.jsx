@@ -1,19 +1,23 @@
 import React from 'react';
+import CategoriesList from './CategoriesList';
 
 class Home extends React.Component {
   render() {
     return (
-      <label
-        htmlFor="home"
-        data-testid="home-initial-message"
-      >
-        Digite algum termo de pesquisa ou escolha uma categoria.
-        <input
-          id="home"
-          type="text"
-          name="home"
-        />
-      </label>
+      <div>
+        <label
+          htmlFor="home"
+          data-testid="home-initial-message"
+        >
+          Digite algum termo de pesquisa ou escolha uma categoria.
+          <input
+            id="home"
+            type="text"
+            name="home"
+          />
+        </label>
+        <CategoriesList />
+      </div>
     );
   }
 }
