@@ -1,7 +1,7 @@
 import React from 'react';
 import CategoriesList from './CategoriesList';
 import { getProductsFromQuery } from '../services/api';
-// import Card from './Card';
+import Card from './Card';
 
 class Home extends React.Component {
   constructor() {
@@ -9,7 +9,7 @@ class Home extends React.Component {
 
     this.state = {
       query: '',
-      searchList: { results: [] },
+      searchList: [],
     };
   }
 
@@ -23,7 +23,7 @@ class Home extends React.Component {
   handleSearch = async () => {
     const { query } = this.state;
     const results = await getProductsFromQuery(query);
-    this.setState({ searchList: results });
+    this.setState({ searchList: results.results });
   }
 
   render() {
@@ -53,14 +53,7 @@ class Home extends React.Component {
         </button>
         <CategoriesList />
         <div>
-          {searchList.results.map((list) => (
-            // <Card key={ list.id } product={ list } />
-            <div key={ list.id } data-testid="product">
-              <p>{list.title}</p>
-              <img src={ list.thumbnail } alt={ list.title } />
-              <p>{ `R$ ${list.price}`}</p>
-            </div>
-          ))}
+          <Card searchList={ searchList } />
         </div>
       </div>
     );
