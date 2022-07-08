@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default class Card extends Component {
   render() {
     const { searchList } = this.props;
-    console.log(searchList);
     return (
       <div>
         { searchList.map((list) => (

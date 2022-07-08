@@ -23,13 +23,12 @@ class CategoriesList extends React.Component {
   apiGetCategory = async (categoriaId) => {
     const categoryApi = await getProductsFromCategory(categoriaId);
     this.setState({
-      categoryApi,
+      categoryApi: categoryApi.results,
     });
   }
 
   render() {
     const { categories, categoryApi } = this.state;
-    console.log(categoryApi);
     return (
       <div>
         <p>Categorias</p>
