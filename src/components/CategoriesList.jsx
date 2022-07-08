@@ -1,11 +1,13 @@
 import React from 'react';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategory } from '../services/api';
+import Card from './Card';
 
 class CategoriesList extends React.Component {
   constructor() {
     super();
     this.state = {
       categories: [],
+      categoryApi: [],
     };
   }
 
@@ -18,22 +20,35 @@ class CategoriesList extends React.Component {
     this.setState({ categories });
   }
 
+  apiGetCategory = async (categoriaId) => {
+    const categoryApi = await getProductsFromCategory(categoriaId);
+    this.setState({
+      categoryApi: categoryApi.results,
+    });
+  }
+
   render() {
-    const { categories } = this.state;
+    const { categories, categoryApi } = this.state;
     return (
       <div>
         <p>Categorias</p>
         <ul>
           { categories.map((categoria) => (
             <button
+              key={ categoria.id }
               type="button"
               data-testid="category"
-              key={ categoria.id }
+              onClick={ () => this.apiGetCategory(categoria.id) }
             >
               { categoria.name }
             </button>
           ))}
         </ul>
+        <div>
+          <Card
+            searchList={ categoryApi }
+          />
+        </div>
       </div>
     );
   }
