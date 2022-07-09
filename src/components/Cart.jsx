@@ -1,11 +1,11 @@
 import React from 'react';
-import Cartbutton from './Cartbutton';
+import EmptyCart from './EmptyCart';
 
 class Cart extends React.Component {
   render() {
     return (
       <div>
-        <Cartbutton />
+        <EmptyCart />
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       </div>
     );
