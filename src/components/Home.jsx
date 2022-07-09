@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CategoriesList from './CategoriesList';
 import { getProductsFromQuery } from '../services/api';
 import Card from './Card';
@@ -51,6 +52,12 @@ class Home extends React.Component {
         >
           Pesquisar
         </button>
+        <Link to="/cart">
+          <button type="button">
+            carrinho de compras
+          </button>
+        </Link>
+
         <CategoriesList />
         <div>
           <Card searchList={ searchList } />

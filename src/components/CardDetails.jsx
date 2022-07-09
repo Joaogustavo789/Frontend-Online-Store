@@ -24,7 +24,6 @@ class CardDetails extends React.Component {
 
   render() {
     const { details } = this.state;
-    console.log(details);
     return (
       <div data-testid="product-detail-name">
         <p>{details.title}</p>
