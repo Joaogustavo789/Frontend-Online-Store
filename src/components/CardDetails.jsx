@@ -31,6 +31,7 @@ class CardDetails extends React.Component {
         <img src={ details.thumbnail } alt={ details.title } />
         <p>{ `R$ ${details.price}`}</p>
         <p>{ details.available_quantity }</p>
+
       </div>
     );
   }
