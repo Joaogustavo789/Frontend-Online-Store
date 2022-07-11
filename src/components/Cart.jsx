@@ -23,14 +23,6 @@ class Cart extends React.Component {
     }
   }
 
-  // validationEmptyCart = () => {
-  //   const { listCart } = this.props;
-  //   this.setState({ empty: false });
-  //   if (listCart.length === 0) {
-  //     this.setState({ empty: true });
-  //   }
-  // }
-
   render() {
     const { listCart } = this.state;
     console.log(listCart);
