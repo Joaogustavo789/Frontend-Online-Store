@@ -1,43 +1,70 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import EmptyCart from './EmptyCart';
 
 class Cart extends React.Component {
   state = {
     listCart: [],
+    // empty: true,
   }
 
   componentDidMount() {
     this.getCartItem();
+    // this.validationEmptyCart();
   }
 
   getCartItem = () => {
-    this.setState({
-      listCart: JSON.parse(localStorage.getItem('list')),
-    });
+    if (!JSON.parse(localStorage.getItem('list'))) {
+      this.setState({ listCart: [] });
+    } else {
+      this.setState({
+        listCart: JSON.parse(localStorage.getItem('list')),
+      });
+    }
   }
+
+  // validationEmptyCart = () => {
+  //   const { listCart } = this.props;
+  //   this.setState({ empty: false });
+  //   if (listCart.length === 0) {
+  //     this.setState({ empty: true });
+  //   }
+  // }
 
   render() {
     const { listCart } = this.state;
+    console.log(listCart);
     return (
       <div>
-        <EmptyCart />
-        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-        <div>
-          {listCart.map((list, index) => (
-            <div key={ `${list.id} ${index}` }>
-              <p data-testid="shopping-cart-product-name">{list.title}</p>
-              <img src={ list.thumbnail } alt={ list.title } />
-              <p>{ `R$ ${list.price}`}</p>
-              <p>{ list.available_quantity }</p>
-              <p data-testid="shopping-cart-product-quantity">
-                {listCart.filter((item) => (item.id === list.id)).length}
+        { !listCart.length
+          ? (
+            <div>
+              <EmptyCart />
+              <p data-testid="shopping-cart-empty-message">
+                Seu carrinho está vazio
               </p>
             </div>
-          ))}
-        </div>
+          ) : (
+            <div>
+              {listCart.map((list, index) => (
+                <div key={ `${list.id} ${index}` }>
+                  <p data-testid="shopping-cart-product-name">{list.title}</p>
+                  <img src={ list.thumbnail } alt={ list.title } />
+                  <p>{ `R$ ${list.price}`}</p>
+                  <p>{ list.available_quantity }</p>
+                  <p data-testid="shopping-cart-product-quantity">
+                    {listCart.filter((item) => (item.id === list.id)).length}
+                  </p>
+                </div>
+              ))}
+            </div>)}
       </div>
     );
   }
 }
 
 export default Cart;
+
+// Cart.propTypes = {
+//   listCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+// };
