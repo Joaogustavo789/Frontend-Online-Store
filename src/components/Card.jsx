@@ -16,7 +16,11 @@ export default class Card extends Component {
   }
 
   saveCartItems = (listCart) => {
+    // if (!listCart.length) {
+    //   localStorage.setItem('list', '[]');
+    // } else {
     localStorage.setItem('list', JSON.stringify(listCart));
+    // }
   };
 
   saveToCart = () => {
@@ -26,14 +30,16 @@ export default class Card extends Component {
     }
   }
 
-  handleButton = (list) => {
+  handleButton = () => {
+    const { listCart } = this.state;
     this.setState((prevState) => ({
-      listCart: [list, ...prevState.listCart],
+      listCart: [...prevState.listCart, listCart],
     }), () => this.saveToCart());
   }
 
   render() {
     const { searchList } = this.props;
+    console.log(searchList);
     const { listCart } = this.state;
     return (
       <div>
@@ -50,7 +56,7 @@ export default class Card extends Component {
             <button
               data-testid="product-add-to-cart"
               type="button"
-              onClick={ () => this.handleButton(list) }
+              onClick={ this.handleButton }
               value={ listCart }
             >
               Adicionar ao Carrinho
