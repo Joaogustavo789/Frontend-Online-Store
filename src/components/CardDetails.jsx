@@ -8,16 +8,18 @@ class CardDetails extends React.Component {
     this.state = {
       details: [],
       listCart: [],
+      inputEmail: '',
+      inputTextarea: '',
+      inputRadio: '',
+      comentarios: [],
     };
   }
 
   componentDidMount() {
     this.getDetails();
+    const { match: { params: { id } } } = this.props;
+    this.getComentarios(id);
   }
-
-  // componentDidUpdate() {
-  //   this.setState({ listCart: JSON.parse(localStorage.getItem('list')) });
-  // }
 
   componentDidUpdate() {
     this.saveToCart();
@@ -47,21 +49,41 @@ class CardDetails extends React.Component {
       listCart: [...prevState.listCart, list],
     }));
   }
-  // saveListCart = (list) => {
-  //   this.setState({
-  //     listCart: list,
-  //   });
-  // }
 
-  // handleButton = (list) => {
-  //   const { listCart } = this.state;
-  //   // this.setState({ listCart: JSON.parse(localStorage.getItem('list')) });
-  //   this.saveListCart(list);
-  //   localStorage.setItem('list', JSON.stringify(listCart));
-  // }
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  getComentarios = (id) => {
+    const allComents = JSON.parse(localStorage.getItem('objectInput')) || [];
+    const comentarios = allComents.filter((element) => (
+      element.id === id
+    ));
+    this.setState({ comentarios });
+  }
+
+  handleSaveButton = (event) => {
+    event.preventDefault();
+    const { match: { params: { id } } } = this.props;
+    const { inputEmail, inputRadio, inputTextarea } = this.state;
+    const objectInput = { inputEmail, inputRadio, inputTextarea, id };
+    const prevObjectInput = JSON.parse(localStorage.getItem('objectInput'));
+    if (prevObjectInput) {
+      localStorage.setItem(
+        'objectInput', JSON.stringify([...prevObjectInput, objectInput]),
+      );
+    } else {
+      localStorage.setItem('objectInput', JSON.stringify([objectInput]));
+    }
+    this.getComentarios(id);
+  }
 
   render() {
-    const { details } = this.state;
+    const { details, comentarios } = this.state;
+    const arrayAvaliation = ['1', '2', '3', '4', '5'];
     return (
       <div data-testid="product-detail-name">
         <p>{details.title}</p>
@@ -75,7 +97,58 @@ class CardDetails extends React.Component {
         >
           Adicionar ao Carrinho
         </button>
-
+        <form>
+          <label htmlFor="email">
+            Email:
+            <input
+              name="inputEmail"
+              data-testid="product-detail-email"
+              type="email"
+              id="email"
+              placeholder="Digite seu email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          {arrayAvaliation.map((index) => (
+            <label htmlFor={ index } key={ index }>
+              {index}
+              <input
+                name="inputRadio"
+                type="radio"
+                id={ index }
+                value={ index }
+                data-testid={ `${index}-rating` }
+                onChange={ this.handleChange }
+              />
+            </label>
+          ))}
+          <textarea
+            name="inputTextarea"
+            cols="30"
+            rows="10"
+            data-testid="product-detail-evaluation"
+            onChange={ this.handleChange }
+          />
+          <button
+            data-testid="submit-review-btn"
+            type="submit"
+            id="button"
+            onClick={ this.handleSaveButton }
+          >
+            Enviar comentário
+          </button>
+        </form>
+        <div>
+          {comentarios.length
+            ? (comentarios.map((comentario) => (
+              <div key={ comentario.inputEmail }>
+                <p>{comentario.inputEmail}</p>
+                <p>{comentario.inputRadio}</p>
+                <p>{comentario.inputTextarea}</p>
+              </div>
+            ))
+            ) : null}
+        </div>
       </div>
     );
   }
