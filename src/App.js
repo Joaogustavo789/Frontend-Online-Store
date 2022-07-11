@@ -4,7 +4,7 @@ import Home from './components/Home';
 import Cart from './components/Cart';
 import EmptyCart from './components/EmptyCart';
 import CardDetails from './components/CardDetails';
-import Card from './components/Card';
+// import Card from './components/Card';
 
 class App extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class App extends React.Component {
         <BrowserRouter>
           <EmptyCart />
           <Route exact path="/" component={ Home } />
-          <Route path="/card" component={ Card } />
+          {/* <Route path="/card" component={ Card } /> */}
           <Route path="/cart" component={ Cart } />
           <Route path="/card/:id" component={ CardDetails } />
         </BrowserRouter>
