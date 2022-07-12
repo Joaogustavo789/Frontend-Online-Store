@@ -1,31 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import EmptyCart from './EmptyCart';
 
 class Cart extends React.Component {
-  state = {
-    listCart: [],
-    // empty: true,
-  }
-
-  componentDidMount() {
-    this.getCartItem();
-    // this.validationEmptyCart();
-  }
-
-  getCartItem = () => {
-    if (!JSON.parse(localStorage.getItem('list'))) {
-      this.setState({ listCart: [] });
-    } else {
-      this.setState({
-        listCart: JSON.parse(localStorage.getItem('list')),
-      });
-    }
-  }
-
   render() {
-    const { listCart } = this.state;
-    console.log(listCart);
+    const { listCart, sumAndSubProducts } = this.props;
     return (
       <div>
         { !listCart.length
@@ -38,15 +17,32 @@ class Cart extends React.Component {
             </div>
           ) : (
             <div>
-              {listCart.map((list, index) => (
-                <div key={ `${list.id} ${index}` }>
+              {listCart.map((list) => (
+                <div key={ `${list.id}` }>
                   <p data-testid="shopping-cart-product-name">{list.title}</p>
                   <img src={ list.thumbnail } alt={ list.title } />
                   <p>{ `R$ ${list.price}`}</p>
-                  <p>{ list.available_quantity }</p>
+                  <button
+                    type="button"
+                    data-testid="product-increase-quantity"
+                    name={ list.id }
+                    value="+"
+                    onClick={ sumAndSubProducts }
+                  >
+                    +
+                  </button>
                   <p data-testid="shopping-cart-product-quantity">
-                    {listCart.filter((item) => (item.id === list.id)).length}
+                    { list.quantity }
                   </p>
+                  <button
+                    type="button"
+                    data-testid="product-decrease-quantity"
+                    name={ list.id }
+                    value="-"
+                    onClick={ sumAndSubProducts }
+                  >
+                    -
+                  </button>
                 </div>
               ))}
             </div>)}
@@ -57,6 +53,9 @@ class Cart extends React.Component {
 
 export default Cart;
 
-// Cart.propTypes = {
-//   listCart: PropTypes.arrayOf(PropTypes.object).isRequired,
-// };
+Cart.propTypes = {
+  listCart: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  sumAndSubProducts: PropTypes.func.isRequired,
+};

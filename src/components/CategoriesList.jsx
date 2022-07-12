@@ -1,57 +1,34 @@
 import React from 'react';
-import { getCategories, getProductsFromCategory } from '../services/api';
-import Card from './Card';
+import PropTypes from 'prop-types';
 
 class CategoriesList extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      categories: [],
-      categoryApi: [],
-    };
-  }
-
-  componentDidMount() {
-    this.categoriesAll();
-  }
-
-  categoriesAll = async () => {
-    const categories = await getCategories();
-    this.setState({ categories });
-  }
-
-  apiGetCategory = async (categoriaId) => {
-    const categoryApi = await getProductsFromCategory(categoriaId);
-    this.setState({
-      categoryApi: categoryApi.results,
-    });
-  }
-
   render() {
-    const { categories, categoryApi } = this.state;
+    const { apiGetCategory, categories } = this.props;
     return (
       <div>
         <p>Categorias</p>
-        <ul>
-          { categories.map((categoria) => (
-            <button
-              key={ categoria.id }
-              type="button"
-              data-testid="category"
-              onClick={ () => this.apiGetCategory(categoria.id) }
-            >
-              { categoria.name }
-            </button>
-          ))}
-        </ul>
-        <div>
-          <Card
-            searchList={ categoryApi }
-          />
-        </div>
+        { categories.map((categoria) => (
+          <button
+            key={ categoria.id }
+            type="button"
+            data-testid="category"
+            onClick={ () => (
+              apiGetCategory(categoria.id)
+            ) }
+          >
+            { categoria.name }
+          </button>
+        ))}
       </div>
     );
   }
 }
 
 export default CategoriesList;
+
+CategoriesList.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  apiGetCategory: PropTypes.func.isRequired,
+};
