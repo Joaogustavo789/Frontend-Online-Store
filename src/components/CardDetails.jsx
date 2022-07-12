@@ -44,12 +44,6 @@ class CardDetails extends React.Component {
     }
   }
 
-  handleButton = (list) => {
-    this.setState((prevState) => ({
-      listCart: [...prevState.listCart, list],
-    }));
-  }
-
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -83,6 +77,7 @@ class CardDetails extends React.Component {
 
   render() {
     const { details, comentarios } = this.state;
+    const { addToCart } = this.props;
     const arrayAvaliation = ['1', '2', '3', '4', '5'];
     return (
       <div data-testid="product-detail-name">
@@ -93,7 +88,7 @@ class CardDetails extends React.Component {
         <button
           data-testid="product-detail-add-to-cart"
           type="button"
-          onClick={ () => this.handleButton(details) }
+          onClick={ () => addToCart(details) }
         >
           Adicionar ao Carrinho
         </button>
@@ -160,6 +155,7 @@ CardDetails.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default CardDetails;

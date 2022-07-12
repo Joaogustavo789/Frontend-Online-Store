@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import CategoriesList from './CategoriesList';
-import { getProductsFromQuery } from '../services/api';
+import {
+  getCategories,
+  getProductsFromQuery,
+  getProductsFromCategory } from '../services/api';
 import Card from './Card';
 
 class Home extends React.Component {
@@ -11,7 +15,24 @@ class Home extends React.Component {
     this.state = {
       query: '',
       searchList: [],
+      categories: [],
     };
+  }
+
+  componentDidMount() {
+    this.categoriesAll();
+  }
+
+  categoriesAll = async () => {
+    const categories = await getCategories();
+    this.setState({ categories });
+  }
+
+  apiGetCategory = async (categoriaId) => {
+    const categoryApi = await getProductsFromCategory(categoriaId);
+    this.setState({
+      searchList: categoryApi.results,
+    });
   }
 
   inputOnChange = ({ target }) => {
@@ -28,7 +49,8 @@ class Home extends React.Component {
   }
 
   render() {
-    const { query, searchList } = this.state;
+    const { query, searchList, categories } = this.state;
+    const { addToCart } = this.props;
     return (
       <div>
         <label
@@ -57,10 +79,32 @@ class Home extends React.Component {
             carrinho de compras
           </button>
         </Link>
-
-        <CategoriesList />
+        <CategoriesList
+          apiGetCategory={ this.apiGetCategory }
+          categories={ categories }
+        />
         <div>
-          <Card searchList={ searchList } />
+          { searchList.length ? (
+            <div>
+              { searchList.map((list) => (
+                <div key={ list.id } data-testid="product">
+                  <Card
+                    id={ list.id }
+                    title={ list.title }
+                    thumbnail={ list.thumbnail }
+                    price={ list.price }
+                  />
+                  <button
+                    data-testid="product-add-to-cart"
+                    type="button"
+                    onClick={ () => addToCart(list) }
+                  >
+                    Adicionar ao Carrinho
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : null }
         </div>
       </div>
     );
@@ -68,3 +112,7 @@ class Home extends React.Component {
 }
 
 export default Home;
+
+Home.propTypes = {
+  addToCart: PropTypes.func.isRequired,
+};
