@@ -52,61 +52,74 @@ class Home extends React.Component {
     const { query, searchList, categories } = this.state;
     const { addToCart } = this.props;
     return (
-      <div>
-        <label
-          htmlFor="home"
-          data-testid="home-initial-message"
-        >
-          Digite algum termo de pesquisa ou escolha uma categoria.
-          <input
-            id="home"
-            type="text"
-            name="home"
-            value={ query }
-            data-testid="query-input"
-            onChange={ this.inputOnChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="query-button"
-          onClick={ this.handleSearch }
-        >
-          Pesquisar
-        </button>
-        <Link to="/cart">
-          <button type="button">
-            carrinho de compras
-          </button>
-        </Link>
-        <CategoriesList
-          apiGetCategory={ this.apiGetCategory }
-          categories={ categories }
-        />
-        <div>
-          { searchList.length ? (
-            <div>
-              { searchList.map((list) => (
-                <div key={ list.id } data-testid="product">
-                  <Card
-                    id={ list.id }
-                    title={ list.title }
-                    thumbnail={ list.thumbnail }
-                    price={ list.price }
-                  />
-                  <button
-                    data-testid="product-add-to-cart"
-                    type="button"
-                    onClick={ () => addToCart(list) }
-                  >
-                    Adicionar ao Carrinho
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : null }
+      <section className="home">
+        <div className="header">
+          <section className="searchHeader">
+            <label
+              htmlFor="home"
+              data-testid="home-initial-message"
+              className="inputHeader"
+            >
+              Digite algum termo de pesquisa ou escolha uma categoria.
+              <input
+                id="home"
+                type="text"
+                name="home"
+                value={ query }
+                data-testid="query-input"
+                onChange={ this.inputOnChange }
+              />
+            </label>
+            <button
+              type="button"
+              data-testid="query-button"
+              onClick={ this.handleSearch }
+            >
+              Pesquisar
+            </button>
+          </section>
+          <Link to="/cart">
+            <button type="button">
+              carrinho de compras
+            </button>
+          </Link>
         </div>
-      </div>
+        <div className="mainHome">
+          <div className="categories">
+            <CategoriesList
+              apiGetCategory={ this.apiGetCategory }
+              categories={ categories }
+            />
+          </div>
+          <div>
+            { searchList.length ? (
+              <div className="cards">
+                { searchList.map((list) => (
+                  <div
+                    key={ list.id }
+                    data-testid="product"
+                    className="card"
+                  >
+                    <Card
+                      id={ list.id }
+                      title={ list.title }
+                      thumbnail={ list.thumbnail }
+                      price={ list.price }
+                    />
+                    <button
+                      data-testid="product-add-to-cart"
+                      type="button"
+                      onClick={ () => addToCart(list) }
+                    >
+                      Adicionar ao Carrinho
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null }
+          </div>
+        </div>
+      </section>
     );
   }
 }

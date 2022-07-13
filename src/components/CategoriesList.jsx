@@ -5,7 +5,7 @@ class CategoriesList extends React.Component {
   render() {
     const { apiGetCategory, categories } = this.props;
     return (
-      <div>
+      <div className="categories">
         <p>Categorias</p>
         { categories.map((categoria) => (
           <button

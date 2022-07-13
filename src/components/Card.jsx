@@ -11,9 +11,11 @@ export default class Card extends Component {
           to={ `/card/${id}` }
           data-testid="product-detail-link"
         >
-          <p>{title}</p>
           <img src={ thumbnail } alt={ title } />
-          <p>{ `R$ ${price}`}</p>
+          <div className="title-price">
+            <h4>{title}</h4>
+            <p>{ `R$ ${price}`}</p>
+          </div>
         </Link>
       </div>
     );
