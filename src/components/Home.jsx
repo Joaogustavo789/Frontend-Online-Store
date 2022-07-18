@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BsCart2 } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import CategoriesList from './CategoriesList';
 import {
@@ -63,6 +64,7 @@ class Home extends React.Component {
               Digite algum termo de pesquisa ou escolha uma categoria.
               <input
                 id="home"
+                className="inputHeaderBox"
                 type="text"
                 name="home"
                 value={ query }
@@ -73,15 +75,14 @@ class Home extends React.Component {
             <button
               type="button"
               data-testid="query-button"
+              className="btnSearch"
               onClick={ this.handleSearch }
             >
               Pesquisar
             </button>
           </section>
-          <Link to="/cart">
-            <button type="button">
-              carrinho de compras
-            </button>
+          <Link to="/cart" className="btnCart">
+            <BsCart2 />
           </Link>
         </div>
         <div className="mainHome">
@@ -109,6 +110,7 @@ class Home extends React.Component {
                     <button
                       data-testid="product-add-to-cart"
                       type="button"
+                      className="btnAddCart"
                       onClick={ () => addToCart(list) }
                     >
                       Adicionar ao Carrinho

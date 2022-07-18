@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { BsCart2 } from 'react-icons/bs';
+import { TiArrowBackOutline } from 'react-icons/ti';
 import { getProductsFromProduct } from '../services/api';
 
 class CardDetails extends React.Component {
@@ -77,22 +80,52 @@ class CardDetails extends React.Component {
 
   render() {
     const { details, comentarios } = this.state;
+    const x6 = 6;
+    const detailsPricex6 = (details.price / x6);
+    const detailsPriceSlice = detailsPricex6.toFixed(2);
     const { addToCart } = this.props;
     const arrayAvaliation = ['1', '2', '3', '4', '5'];
     return (
-      <div data-testid="product-detail-name">
-        <p>{details.title}</p>
-        <img src={ details.thumbnail } alt={ details.title } />
-        <p>{ `R$ ${details.price}`}</p>
-        <p>{ details.available_quantity }</p>
-        <button
-          data-testid="product-detail-add-to-cart"
-          type="button"
-          onClick={ () => addToCart(details) }
-        >
-          Adicionar ao Carrinho
-        </button>
-        <form>
+      <main data-testid="product-detail-name">
+        <section className="headerCardDetails">
+          <Link to="/" className="btnReturn">
+            <TiArrowBackOutline />
+          </Link>
+          <Link to="/cart" className="btnCart">
+            <BsCart2 />
+          </Link>
+        </section>
+        <p className="tituloDaPagina">Detalhes do Produto</p>
+        <section className="productDetails">
+          <img className="imgDetails" src={ details.thumbnail } alt={ details.title } />
+          <div className="descritionProductDetails">
+            <p>{details.title}</p>
+            <p>{ `R$ ${details.price}`}</p>
+            <p>{`ou 6x R$ ${detailsPriceSlice} sem juros`}</p>
+            <p>Frete Grátis</p>
+            <div>
+              <p>{details.available_quantity}</p>
+              <p>Unidades em Estoque</p>
+            </div>
+          </div>
+          <div className="btnsDetails">
+            <button
+              type="button"
+            >
+              Compre Agora
+            </button>
+            <button
+              data-testid="product-detail-add-to-cart"
+              type="button"
+              className="btnAddCart"
+              onClick={ () => addToCart(details) }
+            >
+              Adicionar ao Carrinho
+            </button>
+          </div>
+        </section>
+        <form className="formComments">
+          <p>Insira o seu Comentário do Produto</p>
           <label htmlFor="email">
             Email:
             <input
@@ -104,19 +137,21 @@ class CardDetails extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          {arrayAvaliation.map((index) => (
-            <label htmlFor={ index } key={ index }>
-              {index}
-              <input
-                name="inputRadio"
-                type="radio"
-                id={ index }
-                value={ index }
-                data-testid={ `${index}-rating` }
-                onChange={ this.handleChange }
-              />
-            </label>
-          ))}
+          <div>
+            {arrayAvaliation.map((index) => (
+              <label htmlFor={ index } key={ index }>
+                {index}
+                <input
+                  name="inputRadio"
+                  type="radio"
+                  id={ index }
+                  value={ index }
+                  data-testid={ `${index}-rating` }
+                  onChange={ this.handleChange }
+                />
+              </label>
+            ))}
+          </div>
           <textarea
             name="inputTextarea"
             cols="30"
@@ -144,7 +179,7 @@ class CardDetails extends React.Component {
             ))
             ) : null}
         </div>
-      </div>
+      </main>
     );
   }
 }

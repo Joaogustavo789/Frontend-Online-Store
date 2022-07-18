@@ -10,6 +10,7 @@ class CategoriesList extends React.Component {
         { categories.map((categoria) => (
           <button
             key={ categoria.id }
+            className="btnCategory"
             type="button"
             data-testid="category"
             onClick={ () => (
