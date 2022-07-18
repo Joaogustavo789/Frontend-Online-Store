@@ -5,11 +5,12 @@ class CategoriesList extends React.Component {
   render() {
     const { apiGetCategory, categories } = this.props;
     return (
-      <div>
+      <div className="categories">
         <p>Categorias</p>
         { categories.map((categoria) => (
           <button
             key={ categoria.id }
+            className="btnCategory"
             type="button"
             data-testid="category"
             onClick={ () => (
