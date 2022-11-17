@@ -4,7 +4,7 @@
 Frontend Online Store é uma site de compras online
 na qual é alimentada pela API do Mercado Livre que 
 possibilita pesquisar os produtos por categoria, 
-pesquisar um produto especifico, adicionar ao carrinho,
+pesquisar um produto específico, adicionar ao carrinho,
 escolher a quantidade de um ou vários produtos.
  
 
